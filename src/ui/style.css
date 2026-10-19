@@ -1,0 +1,926 @@
+:root {
+  --night: #11111f;
+  --hotel: #282044;
+  --lav: #b8a3f5;
+  --rose: #f3b5d8;
+  --water: #72dcd4;
+  --meadow: #a8d6a0;
+  --sky: #a6d9ff;
+  --light: #ffe6b0;
+  --bad: #f36b7a;
+  --scale: 1;
+  --font: 'Courier New', 'DejaVu Sans Mono', 'Liberation Mono', monospace;
+}
+
+.ui {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  font-family: var(--font);
+  font-size: calc(16px * var(--scale));
+  color: var(--light);
+  z-index: 10;
+  -webkit-font-smoothing: none;
+  user-select: none;
+  -webkit-user-select: none;
+  --lav: #b8a3f5;
+}
+.ui.hc {
+  --hotel: #000000;
+  --night: #000000;
+  --lav: #ffffff;
+  --light: #ffffff;
+  --rose: #ffff66;
+  --water: #66ffff;
+}
+.hidden {
+  display: none !important;
+}
+
+/* Cadres pixel art : coins coupés par des ombres portées nettes. */
+.px-frame {
+  background: var(--hotel);
+  color: var(--light);
+  box-shadow:
+    0 -4px 0 0 var(--lav),
+    0 4px 0 0 var(--lav),
+    -4px 0 0 0 var(--lav),
+    4px 0 0 0 var(--lav),
+    inset 0 0 0 2px var(--night),
+    inset 0 0 0 4px rgba(184, 163, 245, 0.25);
+}
+
+/* ---------- Boutons ---------- */
+.btn {
+  font: inherit;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--night);
+  color: var(--light);
+  border: 0;
+  padding: 0.7em 1.1em;
+  min-height: 44px;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow:
+    0 -3px 0 0 var(--lav),
+    0 3px 0 0 var(--lav),
+    -3px 0 0 0 var(--lav),
+    3px 0 0 0 var(--lav);
+  margin: 4px;
+}
+.btn:hover:not(:disabled),
+.btn:focus-visible {
+  background: var(--lav);
+  color: var(--night);
+  outline: none;
+}
+.btn:focus-visible {
+  outline: 3px dashed var(--rose);
+  outline-offset: 5px;
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.btn.primary {
+  background: var(--rose);
+  color: var(--night);
+  box-shadow:
+    0 -3px 0 0 var(--light),
+    0 3px 0 0 var(--light),
+    -3px 0 0 0 var(--light),
+    3px 0 0 0 var(--light);
+}
+.btn.danger {
+  box-shadow:
+    0 -3px 0 0 var(--bad),
+    0 3px 0 0 var(--bad),
+    -3px 0 0 0 var(--bad),
+    3px 0 0 0 var(--bad);
+}
+.btn.small {
+  padding: 0.4em 0.8em;
+  min-height: 36px;
+  font-size: 0.85em;
+}
+
+/* ---------- Modales ---------- */
+.modal-host {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  background: rgba(10, 8, 24, 0.7);
+  padding: 20px;
+}
+.modal-host.open {
+  display: flex;
+}
+.modal-host.plain {
+  background: transparent;
+  pointer-events: none;
+  align-items: flex-end;
+}
+.modal-host.plain .modal {
+  pointer-events: auto;
+}
+.modal {
+  position: relative;
+  max-width: min(640px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  padding: 1.4em 1.6em;
+  box-sizing: border-box;
+  animation: pop 0.18s steps(4);
+}
+.modal.menu {
+  background: transparent;
+  box-shadow: none;
+  text-align: center;
+  max-width: 560px;
+}
+.modal h2 {
+  margin: 0 0 0.6em;
+  font-size: 1.3em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--rose);
+}
+.modal h3 {
+  margin: 1.2em 0 0.4em;
+  color: var(--water);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+.modal p {
+  line-height: 1.5;
+  margin: 0.5em 0;
+}
+.muted {
+  opacity: 0.75;
+  font-size: 0.9em;
+}
+.bad {
+  color: var(--bad) !important;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 1em;
+}
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+  margin: 1em auto;
+  max-width: 420px;
+}
+
+/* ---------- Titre ---------- */
+.title {
+  font-size: clamp(2rem, 9vw, 4.2rem);
+  letter-spacing: 0.18em;
+  margin: 0;
+  color: var(--rose);
+  text-shadow:
+    4px 4px 0 var(--hotel),
+    8px 8px 0 var(--night),
+    0 0 22px rgba(243, 181, 216, 0.55);
+  animation: float 4s steps(8) infinite alternate;
+}
+.tagline {
+  color: var(--sky);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  margin: 0.5em 0 1.2em;
+}
+.menu-foot {
+  opacity: 0.6;
+  font-size: 0.8em;
+}
+
+/* ---------- HUD ---------- */
+.hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+.hud-tl {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  max-width: min(46vw, 420px);
+  padding: 0.5em 0.8em;
+}
+.hud-door {
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: var(--rose);
+}
+.hud-objective {
+  font-size: 0.78em;
+  line-height: 1.35;
+  margin-top: 0.3em;
+  color: var(--light);
+}
+.hud-tr {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hud-pause {
+  pointer-events: auto;
+}
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7em;
+  background: var(--hotel);
+  padding: 4px 8px;
+  box-shadow: 0 0 0 2px var(--lav);
+}
+.meter-bar {
+  width: 70px;
+  height: 8px;
+  background: var(--night);
+}
+.meter-fill {
+  height: 100%;
+  background: var(--light);
+}
+.meter.on .meter-fill {
+  background: var(--meadow);
+}
+.meter.low .meter-fill {
+  background: var(--bad);
+}
+.danger {
+  font-size: 0.75em;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+}
+.danger.lvl1 {
+  color: var(--light);
+  background: rgba(40, 32, 68, 0.9);
+  box-shadow: 0 0 0 2px var(--lav);
+}
+.danger.lvl2 {
+  color: var(--night);
+  background: var(--bad);
+  animation: pulse 0.6s steps(2) infinite;
+}
+.quick {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  display: flex;
+  gap: 6px;
+  pointer-events: auto;
+  max-width: 60vw;
+  flex-wrap: wrap;
+}
+.qslot,
+.inv-slot {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background: var(--hotel);
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 0 0 2px var(--lav);
+}
+.qslot:hover,
+.inv-slot:hover,
+.inv-slot:focus-visible {
+  background: var(--lav);
+}
+.icon {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+}
+.icon.big {
+  width: 40px;
+  height: 40px;
+}
+.qcount {
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  font-size: 0.7em;
+  color: var(--light);
+  text-shadow: 1px 1px 0 var(--night);
+}
+.prompt {
+  position: absolute;
+  left: 50%;
+  bottom: 22%;
+  transform: translateX(-50%);
+  font: inherit;
+  background: var(--hotel);
+  color: var(--light);
+  border: 0;
+  padding: 0.5em 1em;
+  box-shadow:
+    0 -3px 0 0 var(--rose),
+    0 3px 0 0 var(--rose),
+    -3px 0 0 0 var(--rose),
+    3px 0 0 0 var(--rose);
+  pointer-events: auto;
+  cursor: pointer;
+  animation: bob 1s steps(2) infinite alternate;
+}
+.toasts {
+  position: fixed;
+  top: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  width: min(92vw, 520px);
+}
+.toast {
+  background: var(--hotel);
+  padding: 0.5em 0.9em;
+  font-size: 0.85em;
+  line-height: 1.35;
+  box-shadow: 0 0 0 2px var(--lav);
+  text-align: center;
+  animation: pop 0.15s steps(3);
+}
+.toast.good {
+  box-shadow: 0 0 0 2px var(--meadow);
+}
+.toast.bad {
+  box-shadow: 0 0 0 2px var(--bad);
+}
+.toast.fade {
+  opacity: 0;
+  transition: opacity 0.6s steps(6);
+}
+.subtitle {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  background: rgba(10, 8, 24, 0.92);
+  color: var(--light);
+  padding: 0.45em 0.9em;
+  font-size: 0.85em;
+  max-width: 86vw;
+  text-align: center;
+  box-shadow: 0 0 0 2px var(--sky);
+}
+.subtitle.off {
+  display: none !important;
+}
+.flash {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.flash.go {
+  animation: flash 0.5s steps(5);
+}
+
+/* ---------- Inventaire ---------- */
+.inv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 52px);
+  gap: 8px;
+  margin: 0.6em 0;
+}
+.inv-slot {
+  width: 52px;
+  height: 52px;
+}
+.inv-slot.sel {
+  box-shadow: 0 0 0 3px var(--rose);
+}
+.inv-slot.essential {
+  box-shadow: 0 0 0 2px var(--light);
+}
+.inv-slot.sel.essential {
+  box-shadow: 0 0 0 3px var(--rose);
+}
+.inv-detail {
+  min-height: 7em;
+  padding: 0.4em 0;
+}
+.tag {
+  font-size: 0.7em;
+  background: var(--light);
+  color: var(--night);
+  padding: 1px 6px;
+  letter-spacing: 0.1em;
+}
+.map {
+  font-size: 0.85em;
+  line-height: 1.7;
+  max-height: 50vh;
+  overflow: auto;
+}
+.map-line {
+  white-space: pre;
+}
+
+/* ---------- Options ---------- */
+.options-scroll {
+  max-height: 58vh;
+  overflow: auto;
+  padding-right: 6px;
+}
+.field {
+  display: block;
+  margin: 0.5em 0;
+}
+.row-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+.range {
+  flex: 1;
+  min-width: 100px;
+  accent-color: var(--rose);
+}
+.val {
+  min-width: 3em;
+  text-align: right;
+}
+.input {
+  font: inherit;
+  background: var(--night);
+  color: var(--light);
+  border: 2px solid var(--lav);
+  padding: 0.4em 0.6em;
+  min-height: 36px;
+  pointer-events: auto;
+}
+input[type='checkbox'] {
+  width: 24px;
+  height: 24px;
+  accent-color: var(--rose);
+}
+.seg {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+.seg-btn {
+  flex: 1;
+  font: inherit;
+  background: var(--night);
+  color: var(--light);
+  border: 2px solid var(--lav);
+  padding: 0.6em;
+  cursor: pointer;
+  min-height: 44px;
+}
+.seg-btn.on {
+  background: var(--rose);
+  color: var(--night);
+}
+.key-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- Chapitres / fins ---------- */
+.chapters,
+.endings {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0.8em 0;
+}
+.chapter,
+.ending {
+  padding: 0.6em 0.8em;
+  background: var(--night);
+  box-shadow: 0 0 0 2px var(--lav);
+}
+.chapter.locked,
+.ending.locked {
+  opacity: 0.55;
+}
+.ch-title,
+.ending-title {
+  color: var(--rose);
+  letter-spacing: 0.06em;
+}
+.ch-state {
+  font-size: 0.8em;
+  opacity: 0.8;
+}
+.credits p {
+  font-size: 0.85em;
+}
+.ending-body {
+  text-align: center;
+  min-width: min(80vw, 420px);
+}
+.ending-line {
+  font-size: 1.1em;
+  line-height: 1.7;
+  min-height: 5em;
+}
+.stats {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  line-height: 1.8;
+}
+.dialogue {
+  width: min(94vw, 640px);
+  cursor: pointer;
+}
+.speaker {
+  color: var(--rose);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.85em;
+}
+
+/* ---------- Énigmes ---------- */
+.puzzle {
+  text-align: center;
+  min-width: min(84vw, 380px);
+}
+.seq-pad {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0.8em 0;
+}
+.seq-btn {
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 78px;
+  min-height: 78px;
+  justify-content: center;
+  background: var(--night);
+  color: var(--light);
+  border: 3px solid var(--lav);
+  cursor: pointer;
+  font-size: 0.75em;
+}
+.seq-btn:hover,
+.seq-btn:focus-visible {
+  background: var(--lav);
+  color: var(--night);
+  outline: none;
+}
+.seq-pad.sound .seq-btn {
+  min-width: 100px;
+  min-height: 110px;
+  font-size: 1em;
+  border-color: var(--night);
+}
+.seq-progress {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+.pdot {
+  width: 14px;
+  height: 14px;
+  background: var(--night);
+  box-shadow: 0 0 0 2px var(--lav);
+}
+.pdot.on {
+  background: var(--rose);
+}
+.switches {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin: 1em 0;
+}
+.switch {
+  position: relative;
+  width: 54px;
+  height: 110px;
+  background: var(--night);
+  border: 3px solid var(--lav);
+  cursor: pointer;
+  font: inherit;
+  color: var(--light);
+}
+.switch .lever {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  height: 40px;
+  background: var(--bad);
+}
+.switch.off .lever {
+  bottom: 8px;
+}
+.switch.on .lever {
+  top: 8px;
+  background: var(--water);
+}
+.switch .num {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  right: 0;
+}
+.dial {
+  position: relative;
+  width: 9rem;
+  height: 9rem;
+  margin: 1.2em auto;
+  background: var(--night);
+  box-shadow: 0 0 0 3px var(--lav);
+  border-radius: 50%;
+}
+.dial .tick {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -0.6em 0 0 -0.6em;
+  width: 1.2em;
+  text-align: center;
+  font-size: 0.7em;
+}
+.dial .tick.cur {
+  background: var(--light);
+  color: var(--night);
+}
+.dial .tick.target {
+  outline: 2px solid var(--bad);
+  color: var(--bad);
+}
+.dial .tick.cur.target {
+  background: var(--bad);
+  color: var(--night);
+}
+.dial .level {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6em;
+  color: var(--rose);
+}
+.valves {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.feedback {
+  min-height: 2.6em;
+  font-size: 0.9em;
+}
+.feedback.ok {
+  color: var(--meadow);
+}
+.feedback.bad {
+  color: var(--bad);
+}
+.seq-flash {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 1em 0;
+}
+.seq-dot {
+  padding: 1.2em 0.9em;
+  color: var(--night);
+  opacity: 0.35;
+  font-size: 0.8em;
+  min-width: 4.5em;
+  text-align: center;
+}
+.seq-dot.lit {
+  opacity: 1;
+  box-shadow: 0 0 18px 4px currentColor;
+}
+
+/* ---------- Tactile ---------- */
+.touch {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+.joy-zone {
+  position: absolute;
+  left: 18px;
+  bottom: 70px;
+  width: 150px;
+  height: 150px;
+  pointer-events: auto;
+  touch-action: none;
+}
+.joy-base {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(40, 32, 68, 0.55);
+  box-shadow: 0 0 0 3px rgba(184, 163, 245, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.joy-knob {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(243, 181, 216, 0.9);
+  box-shadow: 0 0 0 3px var(--hotel);
+}
+.touch-buttons {
+  position: absolute;
+  right: 14px;
+  bottom: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, 76px);
+  gap: 16px 14px;
+  pointer-events: none;
+}
+.tbtn {
+  pointer-events: auto;
+  touch-action: none;
+  font: inherit;
+  font-size: 0.72em;
+  width: 76px;
+  height: 66px;
+  background: rgba(40, 32, 68, 0.85);
+  color: var(--light);
+  border: 0;
+  box-shadow: 0 0 0 3px var(--lav);
+  letter-spacing: 0.05em;
+}
+.tbtn.act {
+  grid-column: 1 / 3;
+  width: auto;
+  height: 76px;
+  background: rgba(243, 181, 216, 0.92);
+  color: var(--night);
+  font-size: 1.3em;
+}
+.tbtn.on {
+  background: var(--lav);
+  color: var(--night);
+}
+.tbtn:active {
+  background: var(--lav);
+  color: var(--night);
+}
+@media (max-height: 460px) {
+  .touch-buttons {
+    grid-template-columns: repeat(3, 62px);
+    gap: 10px;
+  }
+  .tbtn {
+    width: 62px;
+    height: 52px;
+  }
+  .tbtn.act {
+    grid-column: 1 / 4;
+    height: 56px;
+  }
+  .joy-zone {
+    width: 124px;
+    height: 124px;
+    bottom: 28px;
+  }
+  .quick {
+    bottom: auto;
+    top: 56px;
+    left: 14px;
+    flex-direction: column;
+  }
+  .toasts {
+    top: 14px;
+  }
+  .subtitle {
+    bottom: 14px;
+  }
+  .prompt {
+    bottom: 30%;
+  }
+  .modal {
+    padding: 0.8em 1em;
+  }
+  .options-scroll {
+    max-height: 48vh;
+  }
+}
+@media (max-width: 600px) {
+  .hud-tl {
+    max-width: 62vw;
+  }
+  .quick {
+    bottom: 216px;
+  }
+}
+
+/* ---------- Animations ---------- */
+@keyframes pop {
+  from {
+    transform: scale(0.94);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes float {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-6px);
+  }
+}
+@keyframes bob {
+  from {
+    margin-bottom: 0;
+  }
+  to {
+    margin-bottom: 4px;
+  }
+}
+@keyframes pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+@keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.ui.rm *,
+.ui.rm *::before,
+.ui.rm *::after {
+  animation: none !important;
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .title,
+  .prompt,
+  .danger.lvl2 {
+    animation: none;
+  }
+}
+
+/* Téléphone en portrait : boutons plus compacts pour dégager la scène. */
+@media (max-width: 520px) and (min-height: 461px) {
+  .touch-buttons {
+    grid-template-columns: repeat(3, 56px);
+    gap: 8px;
+    right: 10px;
+    bottom: 14px;
+  }
+  .tbtn {
+    width: 56px;
+    height: 48px;
+    font-size: 0.62em;
+  }
+  .tbtn.act {
+    grid-column: 1 / 4;
+    height: 52px;
+  }
+  .joy-zone {
+    width: 128px;
+    height: 128px;
+    left: 10px;
+    bottom: 40px;
+  }
+}

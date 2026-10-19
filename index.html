@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#11111F" />
+    <title>DREAM DOORS</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 fill=%27%2311111F%27/%3E%3Crect x=%274%27 y=%272%27 width=%278%27 height=%2713%27 fill=%27%23F3B5D8%27/%3E%3Crect x=%276%27 y=%274%27 width=%274%27 height=%2711%27 fill=%27%23282044%27/%3E%3C/svg%3E" />
+    <style>
+      html, body { margin: 0; padding: 0; height: 100%; background: #11111F; overflow: hidden; overscroll-behavior: none; touch-action: none; }
+      #game { position: fixed; inset: 0; }
+      canvas { image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+      #boot { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; color: #B8A3F5; font: 16px monospace; letter-spacing: 3px; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="boot">DREAM DOORS…</div>
+    <div id="game"></div>
+    <noscript>Ce jeu nécessite JavaScript.</noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
